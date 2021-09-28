@@ -1,7 +1,6 @@
 import React from "react";
 
 function FilterRecipes({ catagories, filterItems }) {
-  console.log(catagories);
   return (
     <>
       <div className="btn-container">
