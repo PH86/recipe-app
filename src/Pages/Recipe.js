@@ -20,7 +20,9 @@ function Recipe() {
               <h3>Ingredients</h3>
               <ul className="recipe-ingredient-container">
                 {item.ingredients.map((ingredient) => (
-                  <li className="recipe-ingredient">{ingredient}</li>
+                  <li key={ingredient} className="recipe-ingredient">
+                    {ingredient}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -29,7 +31,9 @@ function Recipe() {
               <div className="instruction-container">
                 <ol>
                   {item.instructions.map((instruction) => (
-                    <li className="recipe-instruction">{instruction}</li>
+                    <li key={instruction} className="recipe-instruction">
+                      {instruction}
+                    </li>
                   ))}
                 </ol>
               </div>

@@ -12,31 +12,38 @@ import FilterRecipes from "./components/FilterRecipes/FilterRecipes";
 const allCatagories = ["all", ...new Set(items.map((item) => item.catagory))];
 
 function App() {
-  const [recipeItems, setRecipeItems] = useState(items);
+  const [recipeItems, setRecipeItems] = useState();
   // eslint-disable-next-line no-unused-vars
   const [catagories, setCatagories] = useState(allCatagories);
   const [recipeData, setRecipeData] = useState();
 
+  async function fetchRecipes() {
+    const res = await fetch(
+      "https://recipe-heroku-server.herokuapp.com/recipes"
+    );
+    const json = await res.json();
+    setRecipeData(json);
+    setRecipeItems(json);
+  }
+
   useEffect(() => {
-    async function fetchRecipes() {
-      const res = await fetch(
-        "https://recipe-heroku-server.herokuapp.com/recipes"
-      );
-      const json = await res.json();
-      setRecipeData(json);
-    }
     fetchRecipes();
-    console.log(recipeData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recipeData]);
+  }, []);
 
   const filterItems = (catagory) => {
     if (catagory === "all") {
-      setRecipeItems(items);
+      setRecipeItems(recipeData);
       return;
     }
-    const newItems = items.filter((item) => item.catagory === catagory);
+    const newItems = recipeData?.filter((item) => item.catagory === catagory);
     setRecipeItems(newItems);
+    console.log(newItems);
+  };
+
+  const renderRecipes = (recipeItems) => {
+    if (!recipeItems) return null;
+    return <Recipes items={recipeItems} />;
   };
 
   return (
@@ -53,7 +60,7 @@ function App() {
         </Route>
         <Route exact path="/">
           <FilterRecipes filterItems={filterItems} catagories={catagories} />
-          <Recipes items={recipeItems} />
+          {renderRecipes(recipeItems)}
         </Route>
       </Switch>
       <Footer />
