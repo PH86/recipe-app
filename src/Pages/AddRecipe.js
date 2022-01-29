@@ -3,7 +3,7 @@ import React, { useState, useCallback } from "react";
 const AddRecipe = () => {
   const [recipeForm, setRecipeForm] = useState({});
   const [ingredientInput, setIngredientInput] = useState("");
-  const [instructionInput, setInstructionInput] = useState("");
+  // const [instructionInput, setInstructionInput] = useState("");
 
   //   "id": "1",
   // "title": "chilli",
