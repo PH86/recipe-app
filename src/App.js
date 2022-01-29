@@ -5,16 +5,15 @@ import Navbar from "./components/Navbar/Navbar";
 import PageHeroSection from "./components/PageHeroSection/PageHeroSection";
 import Footer from "./components/Footer/Footer";
 import Recipes from "./components/Recipes";
+import Loading from "./components/Loading/Loading";
 import Recipe from "./Pages/Recipe";
-import items from "./data";
+import AddRecipe from "./Pages/AddRecipe";
 import FilterRecipes from "./components/FilterRecipes/FilterRecipes";
-
-const allCatagories = ["all", ...new Set(items.map((item) => item.catagory))];
 
 function App() {
   const [recipeItems, setRecipeItems] = useState();
   // eslint-disable-next-line no-unused-vars
-  const [catagories, setCatagories] = useState(allCatagories);
+
   const [recipeData, setRecipeData] = useState();
 
   async function fetchRecipes() {
@@ -40,6 +39,16 @@ function App() {
     setRecipeItems(newItems);
     console.log(newItems);
   };
+  const renderFilter = (recipeItems) => {
+    if (!recipeItems) return <Loading />;
+    const allCatagories = [
+      "all",
+      ...new Set(recipeData.map((item) => item.catagory)),
+    ];
+    return (
+      <FilterRecipes filterItems={filterItems} catagories={allCatagories} />
+    );
+  };
 
   const renderRecipes = (recipeItems) => {
     if (!recipeItems) return null;
@@ -55,11 +64,14 @@ function App() {
         calories="Go Beyond"
       />
       <Switch>
+        <Route path="/add">
+          <AddRecipe />
+        </Route>
         <Route path="/:id">
           <Recipe />
         </Route>
         <Route exact path="/">
-          <FilterRecipes filterItems={filterItems} catagories={catagories} />
+          {renderFilter(recipeItems)}
           {renderRecipes(recipeItems)}
         </Route>
       </Switch>

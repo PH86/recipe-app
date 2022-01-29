@@ -1,4 +1,5 @@
 import React from "react";
+import AddButton from "../AddButton/AddButton";
 
 function FilterRecipes({ catagories, filterItems }) {
   return (
@@ -16,6 +17,7 @@ function FilterRecipes({ catagories, filterItems }) {
             </button>
           );
         })}
+        <AddButton />
       </div>
     </>
   );
